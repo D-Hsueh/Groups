@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teams!</title>
+    <link rel="stylesheet" href="../static/CSS/bootstrap.min.css">
+    <script src="../static/JS/jquery-3.1.0.min.js"></script>
+    <script src="../static/JS/bootstrap.min.js"></script>
+</head>
+
+<body style='background-image: url("../static/img/welcome/4.png")'>
+
+<!--页头-->
+<div class="page-header">
+  <h1>
+      Welcome {{ name }}
+      <small id="keye_mail">
+          {{ email }}
+          <button id="signout" type="button" class="btn btn-info btn-xs">注销
+          </button>
+      </small>
+  </h1>
+</div>
+
+<!--主页面-->
+<div class="container-fluid">
+    <div class="row">
+        <!--左侧导航条-->
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked" role="tablist" >
+                <li role="presentation" class="active"><a  href="#index" data-toggle="tab" style="color: #0f0f0f">主页</a></li>
+                <li role="presentation" ><a id="myteamnav" href="#Myteam" data-toggle="tab" style="color: #0f0f0f">我的团队</a></li>
+                <li role="presentation"><a href="#createTeam" data-toggle="tab" style="color: #0f0f0f">创建团队</a></li>
+                <li role="presentation"><a href="#joinTeam" data-toggle="tab" style="color: #0f0f0f">加入/退出团队</a></li>
+            </ul>
+        </div>
+        <!--右侧信息-->
+        <div class="col-md-10">
+            <div class="tab-content" id="tabcontrol">
+
+                <!--主页-->
+                <div class="tab-pane active" id="index">
+                    <div >
+                        <button style="width: 100%" id="startworkbutton" href="javascript:void(0);" onclick="showmymission()"  type="button" class="btn btn-success">开始今天的工作吧！</button>
+                        <div id="showmymission1">
+                        </div>
+                    </div>
+                </div>
+
+                <!--创建团队-->
+                <div class="tab-pane" id="createTeam">
+                    <form class="form-horizontal" role="form">
+                       <div class="form-group">
+                           <label class="col-sm-2 control-label">团队名称</label>
+                           <div class="col-sm-4">
+                               <input type="text" id="teamname" class="form-control">
+                           </div>
+                       </div>
+
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">团队主题</label>
+                           <div class="col-sm-4">
+                               <input type="text" id="mainid" class="form-control">
+                           </div>
+                       </div>
+
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">团队介绍</label>
+                           <div class="col-sm-8">
+                               <textarea  id="introduction" class="form-control" rows="5" style="resize: none;"></textarea>
+                           </div>
+                       </div>
+
+                        <div class=" col-sm-4 col-md-offset-4">
+                            <button id="createTeamButton" type="button" class="btn btn-success btn-lg btn-block">创建团队</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!--我的团队-->
+                <div class="tab-pane" id="Myteam">
+                    <ul id="teamnav" class="nav nav-tabs" role="tablist">
+                    </ul>
+                    <h1 id="mesteamname"></h1>
+
+                    <div id="mesteampan" style="visibility:hidden" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a  data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        团队主题
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <div id="mesmainider" class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a  data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        团队任务简介
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div id="mesintroduction" class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <h4 class="panel-title">
+                                    <a  data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                        团队公告板
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <textarea readonly id="mesannouncement" class="panel-body" rows="10" style="width: 100%;resize: none;" >
+                                </textarea>
+                                <div class="input-group">
+                                    <input id="mescommit" type="text" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button id="commitmes" class="btn btn-primary" type="button">提交</button>
+                                    </span>
+                                </div><!-- /input-group -->
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingFour">
+                                <h4 class="panel-title">
+                                    <a  onclick="showteammission()" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                        团队任务
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseFour"  class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                <div>
+                                    <button onclick="showteammission()" style="width: 100%;"  class="btn btn-lg btn-primary">刷新团队任务</button>
+                                    <div id="showteammission">
+                                    </div>
+                                </div>
+                                <button onclick="getnumber()" style="width: 100%;" data-toggle="modal" data-target="#newmission" class="btn btn-lg btn-success">新建任务</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--加入/退出团队-->
+                <div class="tab-pane" id="joinTeam">
+                    <form class="form-horizontal" role="form">
+                       <div class="form-group">
+                           <label class="col-sm-4 control-label">团队名称</label>
+                           <div class="col-sm-4">
+                               <input type="text" id="jointeamname" class="form-control">
+                           </div>
+                       </div>
+                        <div class=" col-sm-4 col-md-offset-4">
+                            <button id="joinTeamButton" type="button" class="btn btn-success btn-lg btn-block">加入团队</button>
+                            <button id="exitTeamButton" type="button" class="btn btn-success btn-lg btn-block">退出团队</button>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框/新建任务 -->
+<div class="modal fade" id="newmission">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <!--模态框的head-->
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Teams!</h4>
+      </div>
+        <!--模态框的body-->
+        <div class="modal-body">
+            <div class="tab-content" id="signin-signup-tab">
+                <form id="loginform" method="post" role="form">
+                    <div class="form-group">
+                        <label >任务名称</label>
+                        <input type="text" class="form-control" id="missionname" placeholder="请输入任务名称">
+                    </div>
+                    <div class="form-group">
+                        <label >任务简介</label>
+                        <input type="text" class="form-control" id="missionintr" placeholder="请输入任务简介">
+                    </div>
+                    <div class="form-group">
+                        <label >截止日期</label>
+                        <input type="date" class="form-control" id="deadline" placeholder="截止日期">
+                    </div>
+                    <div class="form-group">
+                        <label >选择任务负责人</label>
+                        <select  id="belonguser" class="select form-control">
+                        </select>
+                    </div>
+                    <button id="createmession" type="button" class="btn btn-info btn-block">新建任务</button>
+                </form>
+            </div>
+        </div>
+        <!--模态框的Foot-->
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 提示信息模态框 -->
+<div id="message" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div id="message-text" class="alert text-center" role="alert">
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+<script>
+    <!--注销-->
+    $('#signout').click(function signout() {
+        $.post("#" ,{
+            'commond':'signout'
+        }, function(data, status) {
+            self.location=data;
+        })
+    })
+    
+    function showmymission() {
+        $('#startworkbutton').text('刷新我的任务列表');
+        $.post("#" ,{
+            'commond':'showmymission',
+        }, function(data, status) {
+            var obj=JSON.parse(data);
+            var mydiv=document.getElementById("showmymission1");
+            mydiv.innerHTML="";
+            for (i=0;i<obj.length;i++)
+            {
+                var temp=obj[i];
+                br1=document.createElement("br");
+                br2=document.createElement("br");
+                br3=document.createElement("br");
+                div1=document.createElement("div");
+                div1.setAttribute("class","panel panel-primary");
+
+                div2=document.createElement("div");
+                div2.setAttribute("class","panel-heading");
+
+                h1=document.createElement("h3");
+                h1.setAttribute("class","panel-title");
+                h1.innerHTML=temp.missionname;
+
+                div2.appendChild(h1);
+
+                div3=document.createElement("div");
+                div3.setAttribute("class","panel-body");
+
+                h2=document.createElement("h3");
+                h2.setAttribute("class","panel-title");
+                h2.innerHTML="任务简介："+temp.missionintr;
+
+                h3=document.createElement("h3");
+                h3.setAttribute("class","panel-title");
+                h3.innerHTML="任务进度：";
+
+                divmi=document.createElement("div");
+                divmi.setAttribute("class","progress");
+
+                divmi1=document.createElement("div");
+                divmi1.setAttribute("id","progress"+temp.missionid);
+                divmi1.setAttribute("class","progress-bar progress-bar-striped active");
+                divmi1.setAttribute("role","progressbar");
+                divmi1.setAttribute("aria-valuemin","0");
+                divmi1.setAttribute("aria-valuemax","100");
+                divmi1.setAttribute("style","width: "+temp.schedule+"%;");
+                divmi.appendChild(divmi1);
+
+                h4=document.createElement("h3");
+                h4.setAttribute("class","panel-title");
+                h4.innerHTML="任务截止日期："+temp.deadline;
+
+
+                div3.appendChild(h2);
+                div3.appendChild(h3);
+                div3.appendChild(divmi);
+                div3.appendChild(h4);
+
+
+                if (temp.schedule<100){
+                    div4=document.createElement("div");
+                    div4.setAttribute("class","input-group");
+                    inputt1=document.createElement("input");
+                    inputt1.setAttribute("id","changescheduleinput"+temp.missionid);
+                    inputt1.setAttribute("type","number");
+                    inputt1.setAttribute("class","form-control");
+                    div4.appendChild(inputt1);
+                    div3.appendChild(div4);
+                    button1=document.createElement("span");
+                    button1.setAttribute("class","input-group-btn");
+                    button2=document.createElement("button");
+                    button2.setAttribute("class","btn btn-default");
+                    button2.setAttribute("type","button");
+                    button2.setAttribute("href","javascript:void(0);");
+                    button2.setAttribute("onclick","changeschedule("+temp.missionid+")");
+                    button2.innerHTML="更改任务进度（百分比）";
+                    button1.appendChild(button2);
+                    button3=document.createElement("button");
+                    button3.setAttribute("type","button");
+                    button3.setAttribute("style","width: 100%");
+                    button3.setAttribute("class","btn btn-success");
+                    button3.setAttribute("href","javascript:void(0);");
+                    button3.setAttribute("onclick","finishmission("+temp.missionid+")");
+                    button3.innerHTML="完成任务";
+                    div4.appendChild(button1);
+                    div3.appendChild(button3);
+                }
+                div1.appendChild(div2);
+                div1.appendChild(div3);
+
+                mydiv.appendChild(br1);
+                mydiv.appendChild(div1);
+                mydiv.appendChild(br2);
+
+            }
+        })
+    }
+
+    function finishmission(missionid) {
+        $.post("#" ,{
+            'commond':'finishmission',
+            'missionid':missionid,
+        }, function(data, status) {
+            if (data==1)
+            {
+                proid='#progress'+missionid;
+                $(proid).css("width","100%");
+            }
+        })
+    }
+
+    function changeschedule(missionid) {
+        id='#changescheduleinput'+missionid;
+        $.post("#" ,{
+            'commond':'changeschedule',
+            'missionid':missionid,
+            'schedule':$(id).val()
+        }, function(data, status) {
+            if (data==1)
+            {
+                proid='#progress'+missionid;
+                $(proid).css("width",""+$(id).val()+"%");
+            }
+        })
+    }
+
+    <!--新建任务-->
+    $('#createmession').click(function createmession() {
+        $.post("#" ,{
+            'commond':'createmession',
+            'missionname':$('#missionname').val(),
+            'missionintr':$('#missionintr').val(),
+            'deadline':$('#deadline').val(),
+            'belonguser':$('#belonguser').val(),
+            'teamname':$('#mesteamname').val()
+        }, function(data, status) {
+            if(data=='1') {
+                $('#message-text').addClass("alert-danger");
+                $('#message-text').removeClass("alert-success");
+                $('#message-text').text("任务创建成功！");
+                $('#message').modal('show');
+            }
+            else {
+                $('#message-text').removeClass("alert-success");
+                $('#message-text').addClass("alert-danger");
+                $('#message-text').text("一股来自东方的神秘力量导致任务创建失败！");
+                $('#message').modal('show');
+            }
+        })
+    })
+
+    function getnumber() {
+        $.post("#" ,{
+            'commond':'getnumber',
+            'teamname':$('#mesteamname').val()
+        }, function(data, status) {
+            var obj=JSON.parse(data);
+            var mydiv=document.getElementById("belonguser");
+            mydiv.innerHTML="";
+            for (i=0;i<obj.length;i++)
+            {
+                var input=document.createElement("option");
+                input.innerHTML=obj[i].nickname+":"+obj[i].email;
+                mydiv.appendChild(input);
+            }
+
+        })
+
+
+    }
+
+    function showteammission() {
+        $.post("#" ,{
+            'commond':'showteammission',
+            'teamname':$('#mesteamname').val()
+        }, function(data, status) {
+            var obj=JSON.parse(data);
+            var mydiv=document.getElementById("showteammission");
+            mydiv.innerHTML="";
+            for (i=0;i<obj.length;i++)
+            {
+                var temp=obj[i];
+                br1=document.createElement("br");
+                br2=document.createElement("br");
+                div1=document.createElement("div");
+                div1.setAttribute("class","panel panel-primary");
+
+                div2=document.createElement("div");
+                div2.setAttribute("class","panel-heading");
+
+                h1=document.createElement("h3");
+                h1.setAttribute("class","panel-title");
+                h1.innerHTML=temp.missionname;
+
+                div2.appendChild(h1);
+
+                div3=document.createElement("div");
+                div3.setAttribute("class","panel-body");
+
+                h2=document.createElement("h3");
+                h2.setAttribute("class","panel-title");
+                h2.innerHTML="任务简介："+temp.missionintr;
+
+                h3=document.createElement("h3");
+                h3.setAttribute("class","panel-title");
+                h3.innerHTML="任务进度：";
+
+                divmi=document.createElement("div");
+                divmi.setAttribute("class","progress");
+
+                divmi1=document.createElement("div");
+                divmi1.setAttribute("class","progress-bar progress-bar-striped active");
+                divmi1.setAttribute("role","progressbar");
+                divmi1.setAttribute("aria-valuemin","0");
+                divmi1.setAttribute("aria-valuemax","100");
+                divmi1.setAttribute("style","width: "+temp.schedule+"%;");
+                divmi.appendChild(divmi1);
+
+                h4=document.createElement("h3");
+                h4.setAttribute("class","panel-title");
+                h4.innerHTML="任务负责人："+temp.nickname;
+
+                div3.appendChild(h2);
+                div3.appendChild(h3);
+                div3.appendChild(divmi);
+                div3.appendChild(h4);
+
+                div1.appendChild(div2);
+                div1.appendChild(div3);
+
+                mydiv.appendChild(br1);
+                mydiv.appendChild(div1);
+                mydiv.appendChild(br2);
+
+            }
+        })
+    }
+
+    <!--创建团队-->
+    $('#createTeamButton').click(function createTeam() {
+        $.post("#",{
+            'commond':'createTeam',
+            "teamname":$('#teamname').val(),
+            "mainid":$('#mainid').val(),
+            "introduction":$('#introduction').val()
+        },function(data,status){
+            if(data=='1') {
+                $('#message-text').addClass("alert-danger");
+                $('#message-text').removeClass("alert-success");
+                $('#message-text').text("团队创建成功！");
+                $('#message').modal('show');
+            }
+            else {
+                $('#message-text').removeClass("alert-success");
+                $('#message-text').addClass("alert-danger");
+                $('#message-text').text("团队名称已存在，创建失败！");
+                $('#message').modal('show');
+            }
+        })
+    })
+
+    function showTeam(teamname) {
+        $('#collapseOne').removeClass('in');
+        $('#collapseTwo').removeClass('in');
+        $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+        $.post("#" ,{
+            'commond':'getteammessage',
+            'teamname':teamname
+        }, function(data, status) {
+            document.getElementById("mesteampan").style.visibility="visible";
+            var obj=JSON.parse(data);
+            $('#mesteamname').val(teamname);
+            $('#mesteamname').text(teamname);
+            $('#mesmainider').text(obj.mainider);
+            $('#mesintroduction').text(obj.introduction);
+            $('#mesannouncement').text(obj.announcement);
+        })
+
+    }
+
+    $('#myteamnav').click(function getmyteam(){
+        $.post("#" ,{
+            'commond':'getmyteam'
+        }, function(data, status) {
+            var datas=data.split(" ");
+            var mydiv=document.getElementById("teamnav");
+            mydiv.innerHTML="";
+            for(var i = 0;i < datas.length; i++) {
+                var temp=datas[i];
+                if (temp!=''){
+                    var input =document.createElement("li");
+                    input.setAttribute("role","presentation");
+                    var soninput=document.createElement("a");
+                    soninput.setAttribute("herf","javascript:void(0);");
+                    soninput.setAttribute("onclick","showTeam('"+temp+"')");
+                    soninput.setAttribute("style","color: #0f0f0f");
+                    soninput.innerHTML=temp;
+                    input.appendChild(soninput);
+                    mydiv.appendChild(input);
+                    }
+            }
+
+        })
+    })
+
+    $('#commitmes').click(function commitmes() {
+        $.post("#" ,{
+            'commond':'commitmes',
+            'mes':$('#mescommit').val(),
+            'teamname':$('#mesteamname').val()
+        }, function(data, status) {
+            $('#mesannouncement').text(data);
+        })
+    })
+
+    <!--加入团队-->
+    $('#joinTeamButton').click(function createTeam() {
+        $.post("#",{
+            'commond':'joinTeam',
+            "jointeamname":$('#jointeamname').val(),
+        },function(data,status){
+            if(data=='1') {
+                $('#message-text').addClass("alert-danger");
+                $('#message-text').removeClass("alert-success");
+                $('#message-text').text("加入团队成功！");
+                $('#message').modal('show');
+            }
+            else {
+                $('#message-text').removeClass("alert-success");
+                $('#message-text').addClass("alert-danger");
+                $('#message-text').text("加入团队失败！");
+                $('#message').modal('show');
+            }
+        })
+    })
+
+    <!--退出团队-->
+    $('#exitTeamButton').click(function createTeam() {
+        $.post("#",{
+            'commond':'exitTeam',
+            "jointeamname":$('#jointeamname').val(),
+        },function(data,status){
+            if(data=='1') {
+                $('#message-text').addClass("alert-danger");
+                $('#message-text').removeClass("alert-success");
+                $('#message-text').text("退出团队成功！");
+                $('#message').modal('show');
+            }
+            else {
+                $('#message-text').removeClass("alert-success");
+                $('#message-text').addClass("alert-danger");
+                $('#message-text').text(data);
+                $('#message').modal('show');
+            }
+        })
+    })
+</script>
+
+</html>
